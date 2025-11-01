@@ -51,5 +51,11 @@ export const newsAPI = {
   delete: (id) => api.delete(`/news/${id}`),
 };
 
+// API методы для аутентификации
+export const authAPI = {
+  login: (password) => api.post('/auth/login', { password }),
+  verify: () => api.get('/auth/verify'),
+};
+
 export default api;
 

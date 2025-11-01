@@ -19,6 +19,47 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running' });
 });
 
+// Auth routes
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { password } = req.body;
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'; // Пароль по умолчанию
+
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required' });
+    }
+
+    if (password === adminPassword) {
+      // Генерируем простой токен (в production лучше использовать JWT)
+      const token = `admin_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+      res.json({ 
+        success: true, 
+        token,
+        message: 'Login successful'
+      });
+    } else {
+      res.status(401).json({ error: 'Invalid password' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/auth/verify', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '') || req.query.token;
+    
+    if (!token || !token.startsWith('admin_')) {
+      return res.status(401).json({ authenticated: false });
+    }
+
+    // Простая проверка формата токена
+    res.json({ authenticated: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Participants routes
 app.get('/api/participants', async (req, res) => {
   try {
