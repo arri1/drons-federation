@@ -1,0 +1,11 @@
+/* Стили для админки - убираем margin с root */
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Гарантируем отсутствие margin для всего layout админки */
+.ant-layout {
+  margin: 0 !important;
+}
+

@@ -1,8 +1,15 @@
 /* Reset и базовые стили */
 * {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Для контейнеров с auto margin */
+.container,
+.page {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 body {
@@ -16,6 +23,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Стили для админки */
+#root > div:has(> [class*="ant-layout"]) {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Контейнер */

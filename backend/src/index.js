@@ -48,6 +48,33 @@ app.get('/api/participants/:id', async (req, res) => {
   }
 });
 
+app.post('/api/participants', async (req, res) => {
+  try {
+    const participant = await participantsService.createParticipant(req.body);
+    res.status(201).json(participant);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.put('/api/participants/:id', async (req, res) => {
+  try {
+    const participant = await participantsService.updateParticipant(req.params.id, req.body);
+    res.json(participant);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete('/api/participants/:id', async (req, res) => {
+  try {
+    await participantsService.deleteParticipant(req.params.id);
+    res.json({ success: true, message: 'Participant deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // Events routes
 app.get('/api/events', async (req, res) => {
   try {
@@ -77,10 +104,41 @@ app.get('/api/events/:id', async (req, res) => {
   }
 });
 
+app.post('/api/events', async (req, res) => {
+  try {
+    const event = await eventsService.createEvent(req.body);
+    res.status(201).json(event);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.put('/api/events/:id', async (req, res) => {
+  try {
+    const event = await eventsService.updateEvent(req.params.id, req.body);
+    res.json(event);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete('/api/events/:id', async (req, res) => {
+  try {
+    await eventsService.deleteEvent(req.params.id);
+    res.json({ success: true, message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // News routes
 app.get('/api/news', async (req, res) => {
   try {
-    const news = await newsService.getPublishedNews();
+    // Если запрос от админки, возвращаем все новости, иначе только опубликованные
+    const admin = req.query.admin === 'true';
+    const news = admin 
+      ? await newsService.getAllNews() 
+      : await newsService.getPublishedNews();
     res.json(news);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -106,6 +164,33 @@ app.get('/api/news/:id', async (req, res) => {
   }
 });
 
+app.post('/api/news', async (req, res) => {
+  try {
+    const news = await newsService.createNews(req.body);
+    res.status(201).json(news);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.put('/api/news/:id', async (req, res) => {
+  try {
+    const news = await newsService.updateNews(req.params.id, req.body);
+    res.json(news);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete('/api/news/:id', async (req, res) => {
+  try {
+    await newsService.deleteNews(req.params.id);
+    res.json({ success: true, message: 'News deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -117,11 +202,26 @@ app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
   console.log(`📝 API endpoints:`);
-  console.log(`   - GET /api/participants`);
-  console.log(`   - GET /api/participants/top`);
-  console.log(`   - GET /api/events`);
-  console.log(`   - GET /api/events/upcoming`);
-  console.log(`   - GET /api/news`);
-  console.log(`   - GET /api/news/latest`);
+  console.log(`   Participants:`);
+  console.log(`     - GET /api/participants`);
+  console.log(`     - GET /api/participants/top`);
+  console.log(`     - GET /api/participants/:id`);
+  console.log(`     - POST /api/participants`);
+  console.log(`     - PUT /api/participants/:id`);
+  console.log(`     - DELETE /api/participants/:id`);
+  console.log(`   Events:`);
+  console.log(`     - GET /api/events`);
+  console.log(`     - GET /api/events/upcoming`);
+  console.log(`     - GET /api/events/:id`);
+  console.log(`     - POST /api/events`);
+  console.log(`     - PUT /api/events/:id`);
+  console.log(`     - DELETE /api/events/:id`);
+  console.log(`   News:`);
+  console.log(`     - GET /api/news`);
+  console.log(`     - GET /api/news/latest`);
+  console.log(`     - GET /api/news/:id`);
+  console.log(`     - POST /api/news`);
+  console.log(`     - PUT /api/news/:id`);
+  console.log(`     - DELETE /api/news/:id`);
 });
 
