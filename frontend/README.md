@@ -1,16 +1,45 @@
-# React + Vite
+# Frontend для Федерации гонок дронов
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React приложение для отображения информации о Федерации гонок дронов.
 
-Currently, two official plugins are available:
+## Настройка
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Установите зависимости:
+```bash
+npm install
+```
 
-## React Compiler
+2. Настройте переменные окружения (опционально):
+   - Создайте файл `.env` в корне `frontend/`
+   - Добавьте `VITE_API_URL=http://localhost:3001/api` (или URL вашего бэкенда)
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. Запустите сервер разработки:
+```bash
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Приложение будет доступно на `http://localhost:5173` (или другом порту, который выберет Vite).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Подключение к бэкенду
+
+По умолчанию фронтенд подключается к бэкенду на `http://localhost:3001/api`.
+
+Чтобы изменить URL API:
+1. Создайте файл `.env` в папке `frontend/`
+2. Добавьте строку: `VITE_API_URL=your-api-url`
+
+## API Endpoints
+
+Фронтенд использует следующие endpoints:
+- `/api/participants` - список участников
+- `/api/participants/top` - топ участников
+- `/api/events` - список событий
+- `/api/events/upcoming` - предстоящие события
+- `/api/news` - список новостей
+- `/api/news/latest` - последние новости
+
+## Структура
+
+- `src/services/api.js` - API клиент для взаимодействия с бэкендом
+- `src/pages/` - страницы приложения
+- `src/components/` - переиспользуемые компоненты

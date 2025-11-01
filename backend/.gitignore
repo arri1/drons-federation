@@ -5,6 +5,3 @@ node_modules/
 dist/
 build/
 
-# Prisma
-prisma/migrations/
-

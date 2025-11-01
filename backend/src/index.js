@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as participantsService from './services/participants.prisma.js';
-import * as eventsService from './services/events.prisma.js';
-import * as newsService from './services/news.prisma.js';
+import * as participantsService from './services/participants.js';
+import * as eventsService from './services/events.js';
+import * as newsService from './services/news.js';
 
 dotenv.config();
 
